@@ -1,6 +1,6 @@
 export interface Comment{
     rating:number;
     comment:string;
-    auther:string;
+    author:string;
     date:string;
 }

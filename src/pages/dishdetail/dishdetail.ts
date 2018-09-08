@@ -1,7 +1,8 @@
 import { Component,Inject } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Dish } from "../../shared/dish";
-import { Comment } from "../../shared/comment";
+// import { Comment } from "../../shared/comment";
+import { FavoriteProvider } from "../../providers/favorite/favorite";
 /**
  * Generated class for the DishdetailPage page.
  *
@@ -20,7 +21,9 @@ export class DishdetailPage {
   errMsg:string;
   avgstars:string;
   numberOfComments:number;
+  isFavorite:boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams,
+  private favoriteService: FavoriteProvider,
   @Inject ('BaseURL') private BaseURL) {
 
     this.dish = navParams.get('dish');
@@ -28,6 +31,7 @@ export class DishdetailPage {
     let total= 0;
     this.dish.comments.forEach(comment => total += comment.rating)
     this.avgstars = (total/ this.numberOfComments).toFixed(2);
+    this.isFavorite = favoriteService.isFavorite(this.dish.id);
 
 
   }
@@ -36,4 +40,8 @@ export class DishdetailPage {
     console.log('ionViewDidLoad DishdetailPage');
   }
 
+  addToFavorite(){
+    console.log(`Adding to favorite: ${this.dish.id}`)
+    this.isFavorite= this.favoriteService.addFavorite(this.dish.id);
+  }
 }
